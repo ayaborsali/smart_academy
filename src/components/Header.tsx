@@ -2,45 +2,80 @@ import React, { useState } from 'react';
 import { Menu, X, Brain, Wifi, Settings } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageSelector from './LanguageSelector';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   const navItems = [
-    { name: t('nav.home'), href: '#home' },
-    { name: t('nav.formations'), href: '#formations' },
-    { name: t('nav.pack'), href: '#pack-iot' },
-    { name: t('nav.contact'), href: '#contact' },
+    { name: t('nav.home'), href: '/' },
+    { name: t('nav.formations'), href: '/formations' },
+    { name: t('nav.pack'), href: '/pack-iot' },
+    { name: t('nav.contact'), href: '/contact' },
   ];
+
+  const handleLogoClick = () => {
+    // Fermer le menu mobile si ouvert
+    setIsMenuOpen(false);
+    
+    // Réinitialiser l'état de l'application si nécessaire
+    // Par exemple, vider le localStorage ou reset des states globaux
+    localStorage.removeItem('scrollPosition');
+    localStorage.removeItem('selectedFormation');
+    
+    // Naviguer vers la home page
+    navigate('/');
+    
+    // Forcer le rechargement complet si nécessaire (déconseillé en React)
+    // window.location.href = '/';
+  };
+
+  const handleContactUs = () => {
+    setIsMenuOpen(false);
+    navigate('/contact');
+  };
+
+  const handleNavClick = (href) => {
+    setIsMenuOpen(false);
+    navigate(href);
+  };
 
   return (
     <header className="sticky top-0 z-50 shadow-sm bg-white/95 backdrop-blur-sm">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
-          <div className="flex items-center space-x-2">
+          {/* Logo cliquable */}
+          <button 
+            onClick={handleLogoClick}
+            className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105 focus:outline-none"
+          >
             <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700">
               <Brain className="w-6 h-6 text-white" />
             </div>
-            <div>
+            <div className="text-left">
               <h1 className="text-xl font-bold text-gray-900">RIOT-SYS</h1>
               <p className="text-xs text-gray-600">Formation & Innovation</p>
             </div>
-          </div>
+          </button>
 
           {/* Desktop Navigation */}
           <nav className="items-center hidden space-x-8 md:flex">
             {navItems.map((item) => (
-              <a
+              <button
                 key={item.name}
-                href={item.href}
+                onClick={() => handleNavClick(item.href)}
                 className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
               >
                 {item.name}
-              </a>
+              </button>
             ))}
             <LanguageSelector />
-            <button className="px-6 py-2 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
+            <button 
+              onClick={handleContactUs}
+              className="px-6 py-2 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+            >
               {t('nav.contactUs')}
             </button>
           </nav>
@@ -63,19 +98,21 @@ const Header = () => {
           <div className="py-4 border-t border-gray-200 md:hidden">
             <nav className="flex flex-col space-y-4">
               {navItems.map((item) => (
-                <a
+                <button
                   key={item.name}
-                  href={item.href}
-                  className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => handleNavClick(item.href)}
+                  className="font-medium text-left text-gray-700 transition-colors duration-200 hover:text-blue-600"
                 >
                   {item.name}
-                </a>
+                </button>
               ))}
               <div className="pt-2 border-t border-gray-200">
                 <LanguageSelector />
               </div>
-              <button className="px-6 py-2 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 w-fit">
+              <button 
+                onClick={handleContactUs}
+                className="px-6 py-2 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700 w-fit"
+              >
                 {t('nav.contactUs')}
               </button>
             </nav>

@@ -68,13 +68,13 @@ const Hero = () => {
           <div className="grid max-w-4xl grid-cols-1 gap-8 mx-auto mt-16 md:grid-cols-3">
             <div className="text-center transition-transform duration-300 transform hover:scale-105">
               <div className="flex items-center justify-center w-20 h-20 mx-auto mb-2 text-3xl font-bold text-blue-600 bg-blue-100 rounded-full">
-                500+
+                EN COURS
               </div>
               <div className="font-medium text-gray-600">{t('hero.stats.students')}</div>
             </div>
             <div className="text-center transition-transform duration-300 transform hover:scale-105">
               <div className="flex items-center justify-center w-20 h-20 mx-auto mb-2 text-3xl font-bold text-green-600 bg-green-100 rounded-full">
-                95%
+                EN COURS
               </div>
               <div className="font-medium text-gray-600">{t('hero.stats.satisfaction')}</div>
             </div>
