@@ -38,19 +38,26 @@ const FormationsPage = () => {
   const loadFormations = async () => {
     try {
       setIsLoading(true);
+      // Utilisation d'un timeout pour simuler le chargement
+      setTimeout(() => {
+        setFormations(getMockFormations());
+        setIsLoading(false);
+      }, 1000);
+      
+      // Décommentez cette partie quand votre API sera prête
+      /*
       const response = await fetch('http://localhost:5000/api/formations');
       const data = await response.json();
       
       if (data.success) {
         setFormations(data.data);
       } else {
-        // Fallback vers les données mockées
         setFormations(getMockFormations());
       }
+      */
     } catch (error) {
       console.error('Erreur chargement formations:', error);
       setFormations(getMockFormations());
-    } finally {
       setIsLoading(false);
     }
   };
@@ -180,14 +187,14 @@ const FormationsPage = () => {
             className="inline-flex items-center mb-6 text-blue-600 transition-colors hover:text-blue-700"
           >
             <ArrowRight className="w-5 h-5 mr-2 rotate-180" />
-            {t('button.back')}
+            Retour à l'accueil
           </button>
           
           <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
-            {t('formations.title')}
+            Nos Formations
           </h1>
           <p className="max-w-3xl mx-auto text-xl text-gray-600">
-            {t('formations.subtitle')}
+            Découvrez notre gamme complète de formations en Intelligence Artificielle, IoT et Automatisation
           </p>
         </div>
 
@@ -219,17 +226,17 @@ const FormationsPage = () => {
             <h3 className="mb-2 text-2xl font-bold text-gray-900">
               {formations.length}+
             </h3>
-            <p className="text-gray-600">{t('formations.available')}</p>
+            <p className="text-gray-600">Formations disponibles</p>
           </div>
           <div className="p-6 text-center bg-white shadow-lg rounded-2xl">
             <Clock className="w-12 h-12 mx-auto mb-3 text-green-600" />
             <h3 className="mb-2 text-2xl font-bold text-gray-900">120h+</h3>
-            <p className="text-gray-600">{t('formations.totalHours')}</p>
+            <p className="text-gray-600">Heures de formation</p>
           </div>
           <div className="p-6 text-center bg-white shadow-lg rounded-2xl">
             <Star className="w-12 h-12 mx-auto mb-3 text-yellow-600" />
             <h3 className="mb-2 text-2xl font-bold text-gray-900">98%</h3>
-            <p className="text-gray-600">{t('formations.satisfaction')}</p>
+            <p className="text-gray-600">Taux de satisfaction</p>
           </div>
         </div>
 
@@ -244,7 +251,7 @@ const FormationsPage = () => {
             >
               {formation.popular && (
                 <div className="py-2 text-center text-white bg-blue-600">
-                  <span className="text-sm font-semibold">⭐ {t('formations.popular')}</span>
+                  <span className="text-sm font-semibold">⭐ Populaire</span>
                 </div>
               )}
               
@@ -271,21 +278,21 @@ const FormationsPage = () => {
                 </div>
 
                 {/* Description */}
-                <p className="mb-4 text-gray-600 line-clamp-3">
+                <p className="mb-4 text-gray-600">
                   {formation.description}
                 </p>
 
                 {/* Formateur */}
                 <div className="flex items-center mb-4 space-x-2 text-sm text-gray-600">
                   <Users className="w-4 h-4" />
-                  <span>{t('formations.instructor')}: {formation.instructor}</span>
+                  <span>Formateur : {formation.instructor}</span>
                 </div>
 
                 {/* Fonctionnalités */}
                 <div className="mb-4">
                   <h4 className="flex items-center mb-2 font-semibold text-gray-900">
                     <Zap className="w-4 h-4 mr-2 text-blue-600" />
-                    {t('formations.features')}
+                    Points clés
                   </h4>
                   <div className="space-y-1">
                     {formation.features.slice(0, 3).map((feature, index) => (
@@ -304,14 +311,14 @@ const FormationsPage = () => {
                       {formation.price} €
                     </span>
                     <div className="text-sm text-gray-500">
-                      {t('formations.financing')}
+                      Financement disponible
                     </div>
                   </div>
                   <button
                     onClick={() => handleInscription(formation)}
                     className="flex items-center px-6 py-2 space-x-2 font-semibold text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
                   >
-                    <span>{t('formations.inscription')}</span>
+                    <span>S'inscrire</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -327,10 +334,10 @@ const FormationsPage = () => {
               <BookOpen className="w-12 h-12 text-gray-400" />
             </div>
             <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              {t('formations.noFormations')}
+              Aucune formation trouvée
             </h3>
             <p className="text-gray-600">
-              {t('formations.noFormationsDesc')}
+              Aucune formation disponible pour ce domaine pour le moment.
             </p>
           </div>
         )}
@@ -338,36 +345,36 @@ const FormationsPage = () => {
         {/* Section avantages */}
         <div className="p-8 mt-16 bg-white shadow-lg rounded-2xl">
           <h2 className="mb-8 text-3xl font-bold text-center text-gray-900">
-            {t('formations.advantages')}
+            Nos avantages
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
                 <Shield className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="mb-2 font-semibold text-gray-900">{t('formations.certification')}</h3>
-              <p className="text-sm text-gray-600">{t('formations.certificationDesc')}</p>
+              <h3 className="mb-2 font-semibold text-gray-900">Certification</h3>
+              <p className="text-sm text-gray-600">Certification reconnue par l'État</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
                 <Users className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="mb-2 font-semibold text-gray-900">{t('formations.support')}</h3>
-              <p className="text-sm text-gray-600">{t('formations.supportDesc')}</p>
+              <h3 className="mb-2 font-semibold text-gray-900">Support</h3>
+              <p className="text-sm text-gray-600">Accompagnement personnalisé</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full">
                 <Clock className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="mb-2 font-semibold text-gray-900">{t('formations.flexible')}</h3>
-              <p className="text-sm text-gray-600">{t('formations.flexibleDesc')}</p>
+              <h3 className="mb-2 font-semibold text-gray-900">Flexible</h3>
+              <p className="text-sm text-gray-600">Formation à votre rythme</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-orange-100 rounded-full">
                 <Zap className="w-8 h-8 text-orange-600" />
               </div>
-              <h3 className="mb-2 font-semibold text-gray-900">{t('formations.projects')}</h3>
-              <p className="text-sm text-gray-600">{t('formations.projectsDesc')}</p>
+              <h3 className="mb-2 font-semibold text-gray-900">Pratique</h3>
+              <p className="text-sm text-gray-600">Projets concrets et études de cas</p>
             </div>
           </div>
         </div>
