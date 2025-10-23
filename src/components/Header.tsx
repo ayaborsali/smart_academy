@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Menu, X, Brain, Wifi, Settings } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageSelector from './LanguageSelector';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,19 +17,11 @@ const Header = () => {
   ];
 
   const handleLogoClick = () => {
-    // Fermer le menu mobile si ouvert
     setIsMenuOpen(false);
-    
     // Réinitialiser l'état de l'application si nécessaire
-    // Par exemple, vider le localStorage ou reset des states globaux
     localStorage.removeItem('scrollPosition');
     localStorage.removeItem('selectedFormation');
-    
-    // Naviguer vers la home page
     navigate('/');
-    
-    // Forcer le rechargement complet si nécessaire (déconseillé en React)
-    // window.location.href = '/';
   };
 
   const handleContactUs = () => {
@@ -46,16 +38,37 @@ const Header = () => {
     <header className="sticky top-0 z-50 shadow-sm bg-white/95 backdrop-blur-sm">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
-          {/* Logo cliquable */}
+          {/* Logo avec image personnalisée */}
           <button 
             onClick={handleLogoClick}
-            className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105 focus:outline-none"
+            className="flex items-center space-x-3 transition-all duration-200 hover:scale-105 focus:outline-none group"
           >
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700">
-              <Brain className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center w-12 h-12 bg-white border border-gray-200 rounded-lg shadow-sm group-hover:shadow-md">
+              <img 
+                src="/images/logo.png" 
+                alt="RIOT-SYS - Formation & Innovation" 
+                className="object-contain w-10 h-10 transition-opacity duration-200 group-hover:opacity-90"
+                onError={(e) => {
+                  // Fallback élégant si l'image ne charge pas
+                  console.error('Image logo non trouvée:', e);
+                  e.target.style.display = 'none';
+                  const fallback = document.getElementById('logo-fallback');
+                  if (fallback) {
+                    fallback.style.display = 'flex';
+                    fallback.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-blue-700');
+                  }
+                }}
+              />
+              {/* Fallback stylisé */}
+              <div 
+                id="logo-fallback"
+                className="items-center justify-center hidden w-12 h-12 rounded-lg"
+              >
+                <span className="text-sm font-bold text-white">RS</span>
+              </div>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold text-gray-900">RIOT-SYS</h1>
+              <h1 className="text-xl font-bold text-gray-900 transition-colors duration-200 group-hover:text-blue-600">RIOT-SYS</h1>
               <p className="text-xs text-gray-600">Formation & Innovation</p>
             </div>
           </button>
@@ -84,6 +97,7 @@ const Header = () => {
           <button
             className="p-2 md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           >
             {isMenuOpen ? (
               <X className="w-6 h-6 text-gray-700" />
@@ -101,7 +115,7 @@ const Header = () => {
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
-                  className="font-medium text-left text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                  className="py-2 font-medium text-left text-gray-700 transition-colors duration-200 hover:text-blue-600"
                 >
                   {item.name}
                 </button>
@@ -123,4 +137,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header; 

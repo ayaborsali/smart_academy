@@ -9,7 +9,9 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Inscription from './components/Inscription'; 
-import FormationsPage from './components/FormationsPage'; // Supprimez l'extension .js
+import FormationsPage from './components/FormationsPage';
+import PackIot from './components/PackIoT';
+
 function App() {
   return (
     <LanguageProvider>
@@ -26,8 +28,10 @@ function App() {
               </>
             } />
             <Route path="/login" element={<Login />} />
+            <Route path="/pack-iot" element={<PackIot />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/inscription" element={<Inscription />} /> {/* Ajoutez cette route */}
-             <Route path="/formations" element={<FormationsPage />} />
+            <Route path="/formations" element={<FormationsPage />} />
           </Routes>
           <Footer />
         </div>
