@@ -2,7 +2,7 @@
 const getApiBaseUrl = () => {
   // Si nous sommes en développement, utilisez l'URL de développement
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:3001/api';
+    return 'http://localhost:5000/api';
   }
   // En production, utilisez l'URL de votre API déployée
   return 'https://votre-api-domain.com/api';

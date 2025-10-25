@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const Formations = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const [expandedFormation, setExpandedFormation] = useState(null);
-  const [showAllFeatures, setShowAllFeatures] = useState({});
+  const [expandedFormation, setExpandedFormation] = useState<number | null>(null);
+  const [showAllFeatures, setShowAllFeatures] = useState<{[key: number]: boolean}>({});
 
   const formations = [
     {
@@ -27,7 +27,7 @@ const Formations = () => {
       fullDescription: 'Cette formation complète en Intelligence Artificielle vous permettra de maîtriser les concepts fondamentaux du machine learning et deep learning. Vous apprendrez à développer des modèles prédictifs, des systèmes de reconnaissance d\'images et des applications NLP.',
       duration: '120h',
       level: 'Intermédiaire',
-      price: 300,
+      price: 2999,
     },
     {
       id: 2,
@@ -46,7 +46,7 @@ const Formations = () => {
       fullDescription: 'Formation pratique sur l\'Internet des Objets couvrant la conception de dispositifs connectés, la collecte de données et l\'analyse en temps réel. Apprenez à développer des solutions IoT complètes.',
       duration: '100h',
       level: 'Débutant',
-      price: 200,
+      price: 2499,
     },
     {
       id: 3,
@@ -65,11 +65,11 @@ const Formations = () => {
       fullDescription: 'Maîtrisez la programmation d\'automates industriels et les systèmes de contrôle-commande. Formation orientée pratique avec des études de cas réels.',
       duration: '80h',
       level: 'Intermédiaire',
-      price: 199,
+      price: 1999,
     },
   ];
 
-  const getColorClasses = (color) => {
+  const getColorClasses = (color: string) => {
     const colors = {
       blue: {
         bg: 'bg-blue-50',
@@ -96,10 +96,10 @@ const Formations = () => {
         hover: 'hover:border-orange-300',
       },
     };
-    return colors[color];
+    return colors[color as keyof typeof colors];
   };
 
-  const handleLearnMore = (formation) => {
+  const handleLearnMore = (formation: any) => {
     localStorage.setItem('selectedFormation', JSON.stringify({
       title: formation.title,
       price: formation.price,
@@ -109,7 +109,7 @@ const Formations = () => {
     navigate('/login');
   };
 
-  const toggleFormation = (formationId) => {
+  const toggleFormation = (formationId: number) => {
     if (expandedFormation === formationId) {
       setExpandedFormation(null);
     } else {
@@ -118,7 +118,7 @@ const Formations = () => {
     }
   };
 
-  const toggleFeatures = (formationId, e) => {
+  const toggleFeatures = (formationId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     setShowAllFeatures(prev => ({
       ...prev,
@@ -126,7 +126,7 @@ const Formations = () => {
     }));
   };
 
-  const getVisibleFeatures = (formation) => {
+  const getVisibleFeatures = (formation: any) => {
     if (showAllFeatures[formation.id]) {
       return formation.features;
     }
@@ -180,7 +180,7 @@ const Formations = () => {
                 <div className="mb-6">
                   <h4 className={`${colors.text} font-semibold mb-3 text-lg`}>Compétences acquises :</h4>
                   <div className="space-y-2">
-                    {visibleFeatures.map((feature, idx) => (
+                    {visibleFeatures.map((feature: string, idx: number) => (
                       <div
                         key={idx}
                         className={`${colors.text} bg-white px-4 py-3 rounded-lg text-sm font-medium border ${colors.border} transition-all duration-200 hover:shadow-md`}
@@ -203,7 +203,7 @@ const Formations = () => {
 
                 {/* Contenu détaillé qui s'affiche quand on clique sur la carte */}
                 {isExpanded && (
-                  <div className="mt-6 p-4 bg-white rounded-lg border ${colors.border} animate-fadeIn">
+                  <div className="p-4 mt-6 bg-white border border-gray-200 rounded-lg animate-fadeIn">
                     <h4 className={`${colors.text} font-semibold mb-3 text-lg`}>Description détaillée :</h4>
                     <p className="mb-4 leading-relaxed text-gray-600">
                       {formation.fullDescription}
@@ -226,7 +226,7 @@ const Formations = () => {
                 <div className="mt-6 space-y-4">
                   <div className="text-center">
                     <span className="text-2xl font-bold text-gray-900">
-                      {formation.price} DT
+                      {formation.price} €
                     </span>
                     <p className="mt-1 text-sm text-gray-500">Prix TTC</p>
                   </div>
@@ -276,17 +276,6 @@ const Formations = () => {
           </div>
         </div>
       </div>
-
-      {/* Styles d'animation */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-      `}</style>
     </section>
   );
 };
